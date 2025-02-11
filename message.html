@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter to My Best Friend</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background-color: white;
+            color: black;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .content-wrapper {
+            transform: rotate(-90deg);
+            transform-origin: center;
+            max-width: 80vh;
+            width: 80vh;
+            text-align: left;
+        }
+
+        .title {
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .content {
+            font-size: 1em;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+        }
+
+        .emphasis {
+            font-weight: 600;
+        }
+
+        .instruction {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    z-index: 2;
+    text-shadow: 0 0 10px rgba(255,255,255,0.7),
+                 0 0 20px rgba(255,255,255,0.5),
+                 0 0 30px rgba(255,255,255,0.3);
+    opacity: 1; 
+    transition: opacity 0.3s ease-in-out; /* Smooth transition without pop-up effect */
+}
+
+        @keyframes popOut {
+            from {
+                transform: translate(-50%, -50%) rotate(-90deg) scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(-90deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255,255,255,0.7),
+                             0 0 20px rgba(255,255,255,0.5),
+                             0 0 30px rgba(255,255,255,0.3);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255,255,255,0.9),
+                             0 0 30px rgba(255,255,255,0.7),
+                             0 0 40px rgba(255,255,255,0.5);
+            }
+        }
+
+        .mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .top-right-img {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 96px;
+            height: auto;
+            border-radius: 8px;
+            transform: rotate(-90deg);
+            pointer-events: none;
+        }
+    </style>
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const instruction = document.querySelector(".instruction");
+    const mask = document.createElement("div");
+    mask.classList.add("mask");
+    document.body.appendChild(mask);
+
+    let isHolding = false;
+    let offsetX = 50;
+
+    function updateMask(x, y) {
+        mask.style.maskImage = `radial-gradient(circle 120px at ${x - offsetX}px ${y}px, transparent 100px, black 140px)`;
+        mask.style.webkitMaskImage = `radial-gradient(circle 120px at ${x - offsetX}px ${y}px, transparent 100px, black 140px)`;
+    }
+
+    function resetMask() {
+        mask.style.maskImage = "none";
+        mask.style.webkitMaskImage = "none";
+        instruction.style.opacity = "1"; // Make sure the instruction is visible without pop-up effect
+    }
+
+    function startHolding(e) {
+        isHolding = true;
+        instruction.style.opacity = "0"; // Hide smoothly but keep it in the layout
+
+        let x = e.touches ? e.touches[0].clientX : e.clientX;
+        let y = e.touches ? e.touches[0].clientY : e.clientY;
+        updateMask(x, y);
+    }
+
+    function moveMask(e) {
+        if (isHolding) {
+            let x = e.touches ? e.touches[0].clientX : e.clientX;
+            let y = e.touches ? e.touches[0].clientY : e.clientY;
+            updateMask(x, y);
+        }
+    }
+
+    function stopHolding() {
+        isHolding = false;
+        resetMask();
+    }
+
+    document.body.addEventListener("pointerdown", startHolding);
+    document.body.addEventListener("pointermove", moveMask);
+    document.body.addEventListener("pointerup", stopHolding);
+
+    document.body.addEventListener("touchstart", startHolding);
+    document.body.addEventListener("touchmove", moveMask);
+    document.body.addEventListener("touchend", stopHolding);
+});
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <p class="instruction">Please hold and drag to start.</p>
+        <div class="content-wrapper">
+            <h1 class="title">For You,</h1>
+            <div class="content">
+                <p>Your friendship is a light in my life, a treasure I hold dear in my heart. Through laughter and tears, you've been there, lifting me up when I was down and sharing in my greatest joys.</p>
+                
+                <p>You are the kind of friend who understands my silence and celebrates my victories as if they were your own.</p>
+                
+                <p>Thank you for being you, my dear friend. <span class="emphasis">I appreciate you more than words can say, and I am beyond grateful to have a prayerful friend like you by my side.</span></p>
+
+                <p>Thank youuu! ほんとにありがとうございます!! Salamaaat!</p>
+            </div>
+        </div>
+    </div>
+
+    <img src="a.gif" alt="Friendship Image" class="top-right-img">
+
+</body>
+</html>
